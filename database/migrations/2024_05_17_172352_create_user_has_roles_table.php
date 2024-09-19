@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('role_id');
             $table->string('model_type');
             $table->unsignedBigInteger('model_id');
+            
             $table->timestamps();
 
             // Assuming roles table exists and has an id column

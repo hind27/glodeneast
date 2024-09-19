@@ -23,7 +23,13 @@ return new class extends Migration
             $table->string('name_ar');
             $table->string('des')->nullable();
             $table->string('des_ar')->nullable();
+            $table->integer('price')->nullable();
             // $table->unsignedBigInteger('category_id')->nullable(); // Define as unsignedBigInteger
+             // Adding tracking columns
+             $table->unsignedBigInteger('created_by')->nullable(); // User who created the record
+             $table->unsignedBigInteger('updated_by')->nullable(); // User who updated the record
+             $table->unsignedBigInteger('deleted_by')->nullable(); // User who deleted the record (if soft-deletes are used)
+             
             $table->timestamps();
 
             // Add the foreign key constraint

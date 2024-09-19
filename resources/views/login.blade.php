@@ -45,6 +45,9 @@
 
                         </form>
                         <script>
+                            // In your JavaScript file or script tag
+                        
+
                             // document.addEventListener("DOMContentLoaded", function() {
                             //     $.ajaxSetup({
                             //         headers: {

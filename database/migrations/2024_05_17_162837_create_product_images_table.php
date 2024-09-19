@@ -17,6 +17,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('image_path');
+             // Adding tracking columns
+             $table->unsignedBigInteger('created_by')->nullable(); // User who created the record
+             $table->unsignedBigInteger('updated_by')->nullable(); // User who updated the record
+             $table->unsignedBigInteger('deleted_by')->nullable(); // User who deleted the record (if soft-deletes are used)
+             
             $table->timestamps();
         });
 

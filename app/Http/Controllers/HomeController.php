@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -15,7 +17,10 @@ class HomeController extends BaseController
     public function index(string $locale): mixed
     {
         App::setLocale($locale);
-        return view('index');
+        $products = Product::all();
+        $categories = Category::all();
+        return view('index', ['products' => $products, 'categories' => $categories]);
+
     }
     public function logout(Request $request): LogoutResponse
     {

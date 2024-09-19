@@ -15,24 +15,24 @@
                     <i class="fa fa-envelope fa-2x text-white"></i>
                 </div>
                 <p class="mb-2">info@example.com</p>
-                <p class="mb-0">support@example.com</p>
+              
             </div>
             <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="0.4s">
                 <div class="btn-square mx-auto mb-3">
                     <i class="fa fa-phone fa-2x text-white"></i>
                 </div>
                 <p class="mb-2">+012 345 67890</p>
-                <p class="mb-0">+012 345 67890</p>
+
             </div>
             <div class="col-md-4 text-center wow fadeInUp" data-wow-delay="0.5s">
                 <div class="btn-square mx-auto mb-3">
                     <i class="fa fa-map-marker-alt fa-2x text-white"></i>
                 </div>
-                <p class="mb-2"></p>
-                <p class="mb-0">{{ __('Beni Suef, Egypt') }}</p>
+                <p class="mb-2">{{ __('Beni Suef, Egypt') }}</p>
+
             </div>
         </div>
-       
+
         <div class="row g-5">
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.1s">
                 <h3 class="mb-4">{{ __('Need a functional contact form')}}?</h3>
@@ -72,7 +72,7 @@
             <div class="col-lg-6 wow fadeInUp" data-wow-delay="0.5s">
                 <div class="h-100">
                     <iframe class="w-100 rounded"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3001156.4288297426!2d-78.01371936852176!3d42.72876761954724!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4ccc4bf0f123a5a9%3A0xddcfc6c1de189567!2sNew%20York%2C%20USA!5e0!3m2!1sen!2sbd!4v1603794290143!5m2!1sen!2sbd"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d27544.608344825218!2d31.03887809410121!3d29.065739245650266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14599e1a8dd5395f%3A0x7aacc1cfa1872252!2sBeni%20Suef%2C%20Egypt!5e0!3m2!1sen!2seg!4v1695143196341!5m2!1sen!2seg"
                     frameborder="0" style="height: 100%; min-height: 300px; border:0;" allowfullscreen="" aria-hidden="false"
                     tabindex="0"></iframe>
                 </div>
@@ -80,6 +80,7 @@
         </div>
     </div>
 </div>
+
 <!-- Contact End -->
 @endsection
 
