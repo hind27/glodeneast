@@ -39,13 +39,15 @@ class HomeController extends BaseController
     public function product(string $locale): mixed
     {
         App::setLocale($locale);
-        return view('product');
+        $categories = Category::with(['products'])->get();
+        return view('product' ,['categories' => $categories]);
     }
 
 
     public function store(string $locale): mixed
     {
         App::setLocale($locale);
+        $categories = Category::all()->with(['products']);
         return view('store');
     }
     public function contact(string $locale): mixed

@@ -180,7 +180,7 @@
         @foreach ($categories as  $category)
         <div class="col-md-6 mb-4">
             <div class="card h-100 text-center">
-                <img src="/img/fertilizers.jpg" class="card-img-top" alt="{{ $category->title_ar }}" style="height: 200px; object-fit: cover;">
+                <img src="/img/{{ $category->im }}" class="card-img-top" alt="{{ $category->title_ar }}" style="height: 200px; object-fit: cover;">
                 <div class="card-body">
                     <h5 class="card-title">{{ $category->title_ar }}</h5>
                     <p class="card-text">{{ $category->des }}</p>
@@ -189,12 +189,12 @@
             </div>
         </div>
         @endforeach
-       
+
     </div>
 </div>
 
 
-  
+
 
 
     <!-- Store Start -->

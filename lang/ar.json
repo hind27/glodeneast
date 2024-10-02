@@ -40,5 +40,11 @@
     "Login":"تسجيل الدخول",
     "Our Categories":"أقسام المتجر",
     "Fertilizers":"أسمدة",
-    "Pesticides":"مبيدات"
+    "Pesticides":"مبيدات",
+    "keywords": "الكلمات الرئيسية",
+    "default_sorting": "الفرز الافتراضي",
+    "nothing": "لا شيء",
+    "popularity": "الشعبية",
+    "organic": "طبيعي",
+    "fantastic": "رائع"
 }

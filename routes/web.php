@@ -4,10 +4,13 @@ use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,24 +24,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-// Route::group(['middleware' => ['auth', 'verified']], function () {
-//     Route::get('register-step-two', [RegisterStepTwoController::class, 'create'])->name('register_step_two.create');
-
-//     Route::group(['middleware' => 'registrationCompleted'], function () {
-//         Route::get('/', [HomeController::class, 'index'])->name('dashboard');
-//         Route::prefix('hr')->middleware('hr')->group(function () {
-//             Route::get('/', [HomeController::class, 'dashboard'])->name('hr.dashboard');
-//         });
-//     });
-// });
 // Route::group(['middleware' => ['role:Super Admin']], function () {
 Route::get('/register', [RegisterController::class, 'showRegistrationForm']);
 Route::post('/register', [RegisterController::class, 'register'])->name('register');
 // });
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [UserController::class, 'login'])->name('login');
+// Redirect root URL to the default locale (e.g., 'ar')
 
+// Route::get('/', function () {
+//     return redirect(app()->getLocale());
+// });
 
 Route::group(
     [
@@ -66,13 +62,21 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::post('admin/categories/add', [CategoryController::class, 'add'])->name('category.add');
     Route::delete('admin/categories/{categoryId}', [CategoryController::class, 'delete'])->name('category.delete');
     Route::post('admin/categories/{categoryId}/edit', [CategoryController::class, 'edit'])->name('category.edit');
-    
 
 
-     Route::get('/admin/product/create', [ProductController::class, 'index'])->name('product.create');
+
+    Route::get('/admin/product/create', [ProductController::class, 'index'])->name('product.create');
     Route::post('admin/product/add', [ProductController::class, 'add'])->name('product.add');
     Route::delete('admin/product/{productId}', [ProductController::class, 'delete'])->name('product.delete');
     Route::post('admin/product/{productId}/edit', [ProductController::class, 'edit'])->name('product.edit');
     // Route for viewing orders
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index');
+});
+Route::middleware(['auth', 'is_admin'])->group(function () {
+    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+    Route::put('/roles/{user}', [RoleController::class, 'update'])->name('roles.update');
+    Route::get('/roles/permissions', [RoleController::class, 'permissionsIndex'])->name('roles.permissions');
+    Route::put('/roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.updatePermissions');
+    Route::get('/permissions/create', [PermissionController::class, 'create'])->name('permissions.create');
+    Route::post('/permissions', [PermissionController::class, 'store'])->name('permissions.store');
 });

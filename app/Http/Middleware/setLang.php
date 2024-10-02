@@ -18,11 +18,19 @@ class setLang
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Session::has('locale')) {
-            App::setLocale(Session::get('locale'));
+        $locale = $request->route('locale');
+        if (! in_array($locale, ['en', 'ar'])) {
+            $locale = config('app.locale'); // Default locale fallback
         }
+        app()->setLocale($locale);
         return $next($request);
+
+        // if (Session::has('locale')) {
+        //     App::setLocale(Session::get('locale'));
+        // } else {
+        //     App::setLocale('ar'); // Default to Arabic if no locale is set
+        // }
+
+        // return $next($request);
     }
-
 }
-

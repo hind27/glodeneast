@@ -17,10 +17,13 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::check() && Auth::user()->hasRole('admin')) {
+        // Check if the user is authenticated and has one of the required roles
+        if (Auth::check() && Auth::user()->hasAnyRole(['Super Admin', 'Admin'])) {
             return $next($request);
         }
 
-        return redirect('/'); // Redirect non-admin users
+        // Redirect non-admin users to the homepage or a custom page
+        return redirect('/')->with('error', 'Access denied.');
     }
 }
+
