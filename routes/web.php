@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDashboardController;
 use App\Http\Controllers\AdminProductController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PermissionController;
@@ -49,9 +50,15 @@ Route::group(
 
         Route::get('contact', [HomeController::class, 'contact'])->name('contact');
         Route::get('product', [HomeController::class, 'product'])->name('product');
+        Route::get('show/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
         Route::get('store', [HomeController::class, 'store'])->name('store');
+        Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+        Route::get('/cart', [CartController::class, 'view'])->name('cart.view');
+        Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
+        Route::post('/checkout', [CartController::class, 'placeOrder'])->name('cart.checkout');
     }
 );
+Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
 
 
 // In routes/web.php
@@ -71,9 +78,8 @@ Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::post('admin/product/{productId}/edit', [ProductController::class, 'edit'])->name('product.edit');
     // Route for viewing orders
     Route::get('/admin/orders', [OrderController::class, 'index'])->name('orders.index');
-});
-Route::middleware(['auth', 'is_admin'])->group(function () {
-    Route::get('/roles', [RoleController::class, 'index'])->name('roles.index');
+
+    Route::get('/users/list', [RoleController::class, 'index'])->name('users-list');
     Route::put('/roles/{user}', [RoleController::class, 'update'])->name('roles.update');
     Route::get('/roles/permissions', [RoleController::class, 'permissionsIndex'])->name('roles.permissions');
     Route::put('/roles/{role}/permissions', [RoleController::class, 'updatePermissions'])->name('roles.updatePermissions');

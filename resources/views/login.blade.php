@@ -1,5 +1,5 @@
 @extends('layout-login')
-@section('page-title', __('Dashboard'))
+@section('page-title', __('Login'))
 @section('content')
 
 
@@ -46,7 +46,7 @@
                         </form>
                         <script>
                             // In your JavaScript file or script tag
-                        
+
 
                             // document.addEventListener("DOMContentLoaded", function() {
                             //     $.ajaxSetup({

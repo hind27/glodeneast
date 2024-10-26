@@ -2,11 +2,18 @@
 
 namespace App\Exceptions;
 
+use App\Models\ErrorLog;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    public function report(Throwable $e): void
+	{
+		//dd($e);
+		parent::report($e);
+		ErrorLog::store_exception($e, request());
+	}
     /**
      * A list of exception types with their corresponding custom log levels.
      *

@@ -11,7 +11,7 @@
     <title>@yield('page-title') | Goldeneast</title>
     <meta charset="utf-8" />
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+   
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('includes.head')

@@ -15,15 +15,24 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Raleway:wght@600;800&display=swap"
     rel="stylesheet">
-
+    <link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
 <!-- Icon Font Stylesheet -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="{{ asset('assets/css/fontawesome.min.css') }}" integrity="sha384-NvKbDTEnL+A8F/AA5Tc5kmMLSJHUO868P+lDtTpJIeQdGYaUIuLr4lVGOEA1OcMy" crossorigin="anonymous">
+<link rel="stylesheet" href="{{ asset('assets/css/fontawesome.min.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
 <!-- Libraries Stylesheet -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/lightbox/css/lightbox.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/owlcarousel/assets/owl.carousel.min.css') }}" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ asset('assets/lib/owlcarousel/assets/owl.theme.default.min.css') }}" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/css/sweetalert2.min.css')}}" />
-<link rel="stylesheet" type="text/css" href="{{asset('assets/css/bootstrap.min.css')}}" />
+
 
 <!--begin::Global Stylesheets Bundle(used by all pages)-->
 

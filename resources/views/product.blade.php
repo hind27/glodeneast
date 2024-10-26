@@ -1,18 +1,20 @@
 @extends('layout')
-@section('page-title', __('Dashboard'))
+@section('page-title', __('Products'))
 @section('content')
 
     <!-- Page Header Start -->
     <div class="container-fluid page-header py-5 wow fadeIn" data-wow-delay="0.1s">
 
-            <div class="row justify-content-center">
-                <div class="col-12">
-                    <div class="text-center mb-4 pb-2">
-                        <h4 class="title mb-4 fs-3">{{ __('Our Products') }}</h4>
-                        <p class="text-muted para-desc mx-auto mb-0 fs-4">{{ __('There is now an abundance of readable dummy texts. These are usually used when a text is required purely to fill a space') }}.</p>
-                    </div>
-                </div><!--end col-->
-            </div><!--end row-->
+        <div class="row justify-content-center">
+            <div class="col-12">
+                <div class="text-center mb-4 pb-2">
+                    <h4 class="title mb-4 fs-3">{{ __('Our Products') }}</h4>
+                    {{-- <p class="text-muted para-desc mx-auto mb-0 fs-4">
+                        {{ __('There is now an abundance of readable dummy texts. These are usually used when a text is required purely to fill a space') }}.
+                    </p>ظ --}}
+                </div>
+            </div><!--end col-->
+        </div><!--end row-->
 
     </div>
 
@@ -21,144 +23,86 @@
 
     <!-- Product Section - Start -->
     <div class="container mt-5">
-
         <div class="row">
-            <div class="col-2">
-                <!-- Sidebar (Categories, Price, Additional Options) -->
+            <!-- Sidebar (Categories) -->
+            {{-- <div class="col-2">
                 <div class="col-lg-12">
                     <div class="row g-4">
-                        <!-- Categories -->
                         <div class="col-lg-12">
                             <div class="mb-3">
-                                <h4>Categories</h4>
-                                <ul class="list-unstyled ">
+                                <h4>{{ __('Categories') }}</h4>
+                                <ul class="list-unstyled">
                                     @foreach ($categories as $category)
-                                    <li>
-                                        <div class="d-flex justify-content-between ">
-                                            <a href="#">{{ $category->title_ar }}</a>
-                                            <span>{{ $category->products->count() }}</span>
-                                        </div>
-                                    </li>
+                                        <li>
+                                            <div class="d-flex justify-content-between">
+                                                <a href="">{{ app()->getLocale() === 'ar' ? $category->title_ar : $category->title }}</a>
+                                                <span>{{ $category->products->count() }}</span>
+                                            </div>
+                                        </li>
                                     @endforeach
                                 </ul>
                             </div>
                         </div>
-
-                        <!-- Price Range -->
-                        {{-- <div class="col-lg-12">
-                            <div class="mb-3">
-                                <h4 class="mb-2">Price</h4>
-                                <input type="range" class="form-range w-100" id="rangeInput" name="rangeInput" min="0" max="500" value="0" oninput="amount.value=rangeInput.value">
-                                <output id="amount" name="amount" for="rangeInput">0</output>
-                            </div>
-                        </div> --}}
-
-                        <!-- Additional Filters -->
-                        {{-- <div class="col-lg-12">
-                            <div class="mb-3">
-                                <h4>Additional</h4>
-                                <div class="mb-2">
-                                    <input type="radio" class="me-2" id="Categories-1" name="Categories" value="organic">
-                                    <label for="Categories-1"> Organic</label>
-                                </div>
-                                <div class="mb-2">
-                                    <input type="radio" class="me-2" id="Categories-2" name="Categories" value="fresh">
-                                    <label for="Categories-2"> Fresh</label>
-                                </div>
-                                <div class="mb-2">
-                                    <input type="radio" class="me-2" id="Categories-3" name="Categories" value="sales">
-                                    <label for="Categories-3"> Sales</label>
-                                </div>
-                                <div class="mb-2">
-                                    <input type="radio" class="me-2" id="Categories-4" name="Categories" value="discount">
-                                    <label for="Categories-4"> Discount</label>
-                                </div>
-                                <div class="mb-2">
-                                    <input type="radio" class="me-2" id="Categories-5" name="Categories" value="expired">
-                                    <label for="Categories-5"> Expired</label>
-                                </div>
-                            </div>
-                        </div> --}}
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <!-- Products Grid -->
-            <div class="col-9">
-                <div class="row ">
-                    <div class="col-xl-6">
-                        <!-- Search Bar -->
-                        <div class="input-group w-100 mx-auto d-flex {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
-                            <input type="search" class="form-control p-3" placeholder="{{ __('keywords') }}" aria-describedby="search-icon-1">
+            <div class="col-lg-12">
+                <div class="row">
+                    <!-- Search Bar -->
+                    <div class="col-xl-6 mb-4">
+                        <div
+                            class="input-group w-100 mx-auto d-flex {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
+                            <input type="search" class="form-control p-3" placeholder="{{ __('keywords') }}"
+                                aria-describedby="search-icon-1">
                             <span id="search-icon-1" class="input-group-text p-3">
                                 <i class="fa fa-search"></i>
                             </span>
                         </div>
                     </div>
-                    {{-- <div class="col-6"></div> --}}
-                    {{-- <div class="col-xl-3">
-                        <!-- Sorting Dropdown -->
-                        <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4 {{ app()->getLocale() === 'ar' ? 'flex-row-reverse' : '' }}">
-                            <label for="sorting">{{ __('default_sorting') }}:</label>
-                            <select id="sorting" name="sorting" class="border-0 form-select-sm bg-light me-3">
-                                <option value="nothing">{{ __('nothing') }}</option>
-                                <option value="popularity">{{ __('popularity') }}</option>
-                                <option value="organic">{{ __('organic') }}</option>
-                                <option value="fantastic">{{ __('fantastic') }}</option>
-                            </select>
-                        </div>
-                    </div> --}}
                 </div>
-                <div class="row ">
-                    @for($i=0; $i<10; $i++)
-                    <div class="col-md-3 mb-1">
-                        <div class="product-single-card">
-                            <div class="product-top-area">
-                                <div class="product-discount">10%</div>
-                                <div class="product-img">
-                                    <div class="first-view">
-                                        <img src="./assets/img/placeholder/dummy3.png" alt="Product Image" class="img-fluid" onerror="this.src='https://i.ibb.co/qpB9ZCZ/placeholder.png'">
-                                    </div>
-                                    <div class="hover-view">
-                                        <img src="./assets/img/placeholder/dummy.jpg" alt="Product Image" class="img-fluid" onerror="this.src='https://i.ibb.co/qpB9ZCZ/placeholder.png'">
-                                    </div>
-                                </div>
 
-                                <!-- Action Buttons -->
-                                <div class="sideicons">
-                                    <button class="sideicons-btn"><i class="fa fa-cart-plus"></i></button>
-                                    <button class="sideicons-btn"><i class="fa fa-eye"></i></button>
-                                    <button class="sideicons-btn"><i class="fa fa-heart"></i></button>
-                                    <button class="sideicons-btn"><i class="fa fa-shuffle"></i></button>
-                                </div>
-                            </div>
+                <!-- Products -->
+                <div class="row">
+                    @foreach ($categories as $category)
+                        {{-- <h3 class="mt-4 text-center">
+                            {{ app()->getLocale() === 'ar' ? $category->title_ar : $category->title }}</h3> --}}
+                        <!-- Category name -->
+                        <div class="row">
+                            @foreach ($category->products as $product)
+                                <div class="col-12 col-sm-6 col-md-4 mb-4">
+                                    <div class="card shadow-sm" style="width: 100%;">
+                                        <!-- Product Image -->
+                                        @php
+                                            $firstImage = $product->images->first();
+                                        @endphp
+                                        <img src="{{ asset($firstImage->image_path) }}"
+                                            alt="{{ app()->getLocale() == 'en' ? $product->name : $product->name_ar }}"
+                                            class="img-fluid rounded">
 
-                            <!-- Product Info -->
-                            <div class="product-info">
-                                <h6 class="product-category"><a href="#">Gaming</a></h6>
-                                <h6 class="product-title text-truncate"><a href="#">VR Glass For Ultimate Gaming</a></h6>
-                                <div class="d-flex align-items-center">
-                                    <div class="review-star me-1">
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-solid fa-star"></i>
-                                        <i class="fa-regular fa-star-half-stroke"></i>
-                                        <i class="fa-regular fa-star"></i>
+                                        <div class="card-body text-center">
+                                            <h5 class="card-title mb-2">
+                                                {{ app()->getLocale() == 'en' ? $product->name : $product->name_ar }}
+                                            </h5>
+                                            <p class="card-text mb-2">
+                                                {{ app()->getLocale() == 'en' ? $product->des : $product->des_ar }}
+                                            </p>
+                                            <p class="card-text font-weight-bold text-success">
+                                                <strong>{{ $product->price }} {{ __('EGP') }}</strong>
+                                            </p>
+                                            <a href="{{ route('product.details', ['locale' => app()->getLocale() ,'id'=> $product->id]) }}" class="btn btn-primary btn-sm">{{ __('view') }}</a>
+                                        </div>
                                     </div>
-                                    <span class="review-count">(13)</span>
                                 </div>
-                                <div class="d-flex flex-wrap align-items-center py-2">
-                                    <div class="old-price">$50.45</div>
-                                    <div class="new-price">$35.05</div>
-                                </div>
-                            </div>
+                            @endforeach
                         </div>
-                    </div>
-                    @endfor
+                    @endforeach
                 </div>
             </div>
         </div>
     </div>
+
 
     <!-- Product Section - End -->
 

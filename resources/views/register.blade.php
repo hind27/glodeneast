@@ -1,5 +1,5 @@
 @extends('layout-login')
-@section('page-title', __('Dashboard'))
+@section('page-title', __('Register'))
 @section('content')
 
     <div class="container h-100">
@@ -88,12 +88,24 @@
                                                     }
                                                 },
                                                 error: function(xhr) {
+                                                    // Handle error
                                                     console.error('Error:', xhr.responseText);
+
+                                                    // Optionally, you can check the status code and customize the message
+                                                    let errorMessage =
+                                                        'An error occurred during registration. Please try again.';
+
+                                                    if (xhr.status === 422) {
+                                                        // Example for validation errors
+                                                        const response = JSON.parse(xhr.responseText);
+                                                        errorMessage = response.message || 'Validation error occurred.';
+                                                    }
+
                                                     Swal.fire({
                                                         position: 'center',
                                                         icon: 'error',
                                                         title: 'Registration Failed',
-                                                        text: 'An error occurred during registration. Please try again.',
+                                                        text: errorMessage,
                                                         showConfirmButton: true
                                                     });
                                                 }

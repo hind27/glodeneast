@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Spatie\Permission\Contracts\Role;
 
 class RegisterController extends Controller
 {
@@ -59,23 +60,39 @@ class RegisterController extends Controller
      */
 
 
-    public function register(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'name_ar' => ['nullable', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:6', 'confirmed'],
-        ]);
+     public function register(Request $request)
+     {
+         // Validate the request data
+         $validatedData = $request->validate([
+             'name' => ['required', 'string', 'max:255'],
+             'name_ar' => ['nullable', 'string', 'max:255'],
+             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+             'password' => ['required', 'string', 'min:6', 'confirmed'],
+         ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
+         // Create the user
+         $user = User::create([
+             'name' => $validatedData['name'],
+             'email' => $validatedData['email'],
+             'password' => Hash::make($validatedData['password']),
+         ]);
 
-        return redirect('/login')->with('success', 'Registration successful! Please log in.');
-    }
+         // Assign default role
+         $defaultRole = Role::where('name', 'User')->first(); // Change 'user' to your desired default role name
+
+         if ($defaultRole) {
+             $user->roles()->attach($defaultRole); // Assuming you have a roles relationship defined in User model
+         }
+
+         // Check if the request is an AJAX request
+         if ($request->ajax()) {
+             return response()->json(['message' => 'Registration successful! Please log in.'], 201);
+         }
+
+         // Redirect to the login page for non-AJAX requests
+         return redirect('/login')->with('success', 'Registration successful! Please log in.');
+     }
+
     protected function validator(array $data)
     {
         return Validator::make($data, [

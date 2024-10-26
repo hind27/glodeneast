@@ -17,10 +17,6 @@ public function showLoginForm()
     return view('login');
 }
 
-
-
-
-
 public function login(Request $request)
 {
     $credentials = $request->only('email', 'password');
