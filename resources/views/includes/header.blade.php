@@ -12,14 +12,14 @@
                         <a href="{{ route('home', ['locale' => $locale]) }}" class="text-decoration-none">
                             <img class="img-fluid" src="/img/logo.jpg" alt="Logo" style="width: 98px; height: 82px;">
                             <span class="text-primary fw-bolder"
-                                style="font-family: 'M PLUS Rounded 1c', sans-serif;font-weight: 400;font-style: normal;">{{ _('Gloden East') }}</span>
+                                style="font-family: 'M PLUS Rounded 1c', sans-serif;font-weight: 400;font-style: normal;">{{ _('Golden East') }}</span>
                         </a>
                     </div>
                 @else
                     <!-- Logo on the left for other locales -->
                     <a href="{{ route('home', ['locale' => $locale]) }}" class="text-decoration-none">
                         <img class="img-fluid" src="/img/logo.jpg" alt="Logo" style="width: 98px; height: 82px;">
-                        <span class="text-primary">{{ _('Gloden East') }}</span>
+                        <span class="text-primary">{{ _('Golden East') }}</span>
                     </a>
                 @endif
             </div>
