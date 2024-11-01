@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductSize;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -14,7 +17,9 @@ class ProductController extends Controller
     {
         $products = Product::all();
         $categories = Category::all();
-        return view('admin.products', ['products' => $products, 'categories' => $categories]);
+        $sizes = Size::all();
+        $feedbacks = Feedback::all();
+        return view('admin.products', ['products' => $products, 'categories' => $categories, 'sizes' => $sizes]);
     }
 
     // Add a new category
@@ -28,6 +33,9 @@ class ProductController extends Controller
             'des_ar' => 'nullable|string',
             'price' => 'required|numeric',
             'images.*' => 'required|image|mimes:jpeg,jpg,png,gif|max:2048', // Validate each image
+             'size' => 'required|array',
+            'size.*' => 'exists:sizes,id', // Ensure each size exists in the sizes table
+
         ]);
 
         // Create new product
@@ -38,7 +46,15 @@ class ProductController extends Controller
         $product->des = $request->input('des');
         $product->des_ar = $request->input('des_ar');
         $product->price = $request->input('price');
+
+
         $product->save();
+        foreach ($request->sizes as $size) {
+            $productSize = new ProductSize();
+            $productSize->size_id = $size;
+            $productSize->product_id =  $product->id;
+            $productSize->save();
+        }
         // Handle image upload
         // Handle multiple image uploads
         if ($request->hasFile('images')) {
@@ -82,6 +98,7 @@ class ProductController extends Controller
 
         // Retrieve and delete associated images from storage and database
         $productImages = ProductImage::where('product_id', $productId)->get();
+        $productSize = ProductSize::where('product_id', $productId)->get();
 
         foreach ($productImages as $image) {
             // Check if the image file exists before deleting
@@ -90,7 +107,9 @@ class ProductController extends Controller
             }
             $image->delete(); // Delete image record from database
         }
-
+        foreach ($productSize as $size) {
+            $productSize->delete();
+        }
         // Delete the product record
         $product->delete();
 
@@ -106,6 +125,8 @@ class ProductController extends Controller
             'name' => 'nullable|string',
             'des' => 'nullable|string',
             'des_ar' => 'nullable|string',
+            'des_long' => 'nullable|string',
+            'des_ar_long' => 'nullable|string',
             'price' => 'required|numeric',
             'images.*' => 'nullable|image|mimes:jpeg,jpg,png,gif|max:2048', // Validate each image if provided
         ]);
@@ -119,9 +140,18 @@ class ProductController extends Controller
         $product->name = $request->input('name');
         $product->des = $request->input('des');
         $product->des_ar = $request->input('des_ar');
+        $product->des = $request->input('des');
+        $product->des_ar = $request->input('des_ar');
         $product->price = $request->input('price');
-        $product->save();
 
+        $product->productSizes()->delete();
+        $product->save();
+        foreach ($request->sizes as $size) {
+            $productSize = new ProductSize();
+            $productSize->size_id = $size;
+            $productSize->product_id =  $product->id;
+            $productSize->save();
+        }
         // Handle new image uploads if provided
         if ($request->hasFile('images')) {
             // Remove old images associated with the product

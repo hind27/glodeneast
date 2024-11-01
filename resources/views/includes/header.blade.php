@@ -1,22 +1,25 @@
 <!-- Navbar Start -->
+@php
+    $locale = app()->getLocale() ?? config('app.locale', 'ar'); // Default to 'en' if no locale is set
+@endphp
 <div class="container-fluid bg-white sticky-top">
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-2 py-lg-0 ">
             <div class="d-flex w-50">
-                @if (app()->getLocale() === 'ar')
+                @if ($locale === 'ar')
                     <!-- Logo on the right for Arabic locale -->
                     <div class="ms-auto order-lg-2 ">
-                        <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="text-decoration-none">
-                            <img class="img-fluid" src="/img/logo.jpg" alt="Logo"
-                                style="width: 98px; height: 82px;">
-                                <span class="text-primary fw-bolder" style="font-family: 'M PLUS Rounded 1c', sans-serif;font-weight: 400;font-style: normal;">{{ _('Gloden East') }}</span>
+                        <a href="{{ route('home', ['locale' => $locale]) }}" class="text-decoration-none">
+                            <img class="img-fluid" src="/img/logo.jpg" alt="Logo" style="width: 98px; height: 82px;">
+                            <span class="text-primary fw-bolder"
+                                style="font-family: 'M PLUS Rounded 1c', sans-serif;font-weight: 400;font-style: normal;">{{ _('Gloden East') }}</span>
                         </a>
                     </div>
                 @else
                     <!-- Logo on the left for other locales -->
-                    <a href="{{ route('home', ['locale' => app()->getLocale()]) }}" class="text-decoration-none">
-                        <img class="img-fluid" src="/img/logo.jpg" alt="Logo"
-                            style="width: 98px; height: 82px;">  <span class="text-primary">{{ _('Gloden East') }}</span>
+                    <a href="{{ route('home', ['locale' => $locale]) }}" class="text-decoration-none">
+                        <img class="img-fluid" src="/img/logo.jpg" alt="Logo" style="width: 98px; height: 82px;">
+                        <span class="text-primary">{{ _('Gloden East') }}</span>
                     </a>
                 @endif
             </div>
@@ -31,13 +34,13 @@
             <!-- Collapsible Navbar Menu -->
             <div class="collapse navbar-collapse w-100" id="navbarCollapse">
                 <div class="navbar-nav w-100 me-auto">
-                    <a href="{{ route('home', ['locale' => app()->getLocale()]) }}"
+                    <a href="{{ route('home', ['locale' => $locale]) }}"
                         class="nav-item nav-link {{ Route::currentRouteName() == 'home' ? 'active' : '' }}">{{ __('Home') }}</a>
-                    <a href="{{ route('about', ['locale' => app()->getLocale()]) }}"
+                    <a href="{{ route('about', ['locale' => $locale]) }}"
                         class="nav-item nav-link {{ Route::currentRouteName() == 'about' ? 'active' : '' }}">{{ __('About') }}</a>
-                    <a href="{{ route('product', ['locale' => app()->getLocale()]) }}"
+                    <a href="{{ route('product', ['locale' => $locale]) }}"
                         class="nav-item nav-link {{ Route::currentRouteName() == 'product' ? 'active' : '' }}">{{ __('Products') }}</a>
-                    <a href="{{ route('contact', ['locale' => app()->getLocale()]) }}"
+                    <a href="{{ route('contact', ['locale' => $locale]) }}"
                         class="nav-item nav-link {{ Route::currentRouteName() == 'contact' ? 'active' : '' }}">{{ __('Contact') }}</a>
                 </div>
 
@@ -48,7 +51,7 @@
                         <div class="btn-group">
                             <button type="button" class="btn btn-green dropdown-toggle" data-bs-toggle="dropdown"
                                 aria-expanded="false">
-                                @if (app()->getLocale() == 'en')
+                                @if ($locale == 'en')
                                     العربية
                                 @else
                                     English
@@ -56,12 +59,15 @@
                             </button>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}">
+                                    <a class="dropdown-item"
+                                        href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'en'])) }}">
                                         English
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}" style="font-family: Tajawal, sans-serif;">
+                                    <a class="dropdown-item"
+                                        href="{{ route(Route::currentRouteName(), array_merge(request()->route()->parameters(), ['locale' => 'ar'])) }}"
+                                        style="font-family: Tajawal, sans-serif;">
                                         العربية
                                     </a>
                                 </li>
@@ -71,7 +77,7 @@
                         {{-- <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link btn btn-sm dropdown-toggle" href="#"
                                 role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                @if (app()->getLocale() == 'en')
+                                @if ($locale == 'en')
                                     العربية
                                 @else
                                     English
@@ -92,7 +98,7 @@
                             <div class="dropdown">
                                 <a href="#" class="nav-item nav-link dropdown-toggle" id="userDropdown"
                                     role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    @if (app()->getLocale() === 'ar')
+                                    @if ($locale === 'ar')
                                         <i class="fas fa-user me-1"></i>
                                         {{ Auth::user()->name }}
                                     @else
@@ -122,7 +128,7 @@
                             <!-- Login Link if not logged in -->
                             <a href="{{ route('login.form') }}"
                                 class="nav-item nav-link {{ Route::currentRouteName() == 'login.form' ? 'active' : '' }}">
-                                @if (app()->getLocale() === 'ar')
+                                @if ($locale === 'ar')
                                     <i class="fas fa-user  me-1 "></i>
                                     {{ __('Login') }}
                                 @else
@@ -135,7 +141,7 @@
                     </div>
 
                     <div class="p-1">
-                        <a href="{{ route('cart.view', ['locale' => app()->getLocale()]) }}"
+                        <a href="{{ route('cart.view', ['locale' => $locale]) }}"
                             class="nav-item nav-link position-relative">
                             <i class="fas fa-shopping-cart fs-6"></i>
                             <span id="cart-count"
@@ -157,7 +163,7 @@
     // Function to update cart count
     function updateCartCount() {
         $.ajax({
-            url: "{{ route('cart.count', ['locale' => app()->getLocale()]) }}", // Route that returns cart count
+            url: "{{ route('cart.count', ['locale' => $locale]) }}", // Route that returns cart count
             method: "GET",
             success: function(response) {
                 $('#cart-count').text(response.count); // Update cart count badge
@@ -167,12 +173,12 @@
             }
         });
     }
-
-    // Initial call to set the cart count on page load
-    $(document).ready(function() {
-        updateCartCount();
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initial call to set the cart count on page load
+        $(document).ready(function() {
+            updateCartCount();
+        });
     });
-
     // Optionally, set an interval to periodically update the cart count
     setInterval(updateCartCount, 5000); // Update every 5 seconds
 </script>

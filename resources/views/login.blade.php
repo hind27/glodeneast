@@ -41,8 +41,13 @@
 
 
                             <button type="submit" class="btn  btn-lg btn-primary w-100">Register</button>
-                            <a href="#" class="btn btn-link">Forgot Your Password?</a>
+                            <a href="{{ route('password.request') }}" class="btn btn-link">Forgot Your Password?</a>
 
+                            <!-- Add "Don't have an account?" link -->
+                            <div class="text-center mt-3">
+                                <span>Don't have an account?</span>
+                                <a href="{{ route('register') }}" class="btn btn-link">Sign up here</a>
+                            </div>
                         </form>
                         <script>
                             // In your JavaScript file or script tag

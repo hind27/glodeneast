@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Category;
+use App\Models\Feedback;
 use App\Models\Product;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -49,11 +50,12 @@ class HomeController extends BaseController
 
     public function productDetails(string $locale ,$id): mixed
     {
-       
+
         App::setLocale($locale);
         $categories = Category::with(['products'])->get();
         $product = Product::findOrFail($id);
-        return view('product-details' ,['product' => $product]);
+        $feedback = Feedback::where('product_id',$id)->get();
+        return view('product-details' ,['product' => $product ,'feedback' => $feedback]);
     }
     public function store(string $locale): mixed
     {

@@ -22,6 +22,9 @@ class Product  extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
-
+    public function productSizes()
+    {
+        return $this->hasMany(ProductSize::class);
+    }
     // You can also add a relationship to the Order if needed (many-to-many)
 }

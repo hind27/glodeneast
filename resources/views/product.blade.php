@@ -88,9 +88,9 @@
                                             <p class="card-text mb-2">
                                                 {{ app()->getLocale() == 'en' ? $product->des : $product->des_ar }}
                                             </p>
-                                            <p class="card-text font-weight-bold text-success">
+                                            {{-- <p class="card-text font-weight-bold text-success">
                                                 <strong>{{ $product->price }} {{ __('EGP') }}</strong>
-                                            </p>
+                                            </p> --}}
                                             <a href="{{ route('product.details', ['locale' => app()->getLocale() ,'id'=> $product->id]) }}" class="btn btn-primary btn-sm">{{ __('view') }}</a>
                                         </div>
                                     </div>

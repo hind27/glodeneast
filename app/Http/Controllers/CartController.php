@@ -2,48 +2,58 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CartItem;
 use App\Models\Product;
+use Auth;
 use Illuminate\Http\Request;
 use App\Models\Cart; // Include this if you have a Cart model, adjust as needed
 
 class CartController extends Controller
 {
 
-    public function view()
+    public function viewCart()
     {
         // Add your logic to load cart details, e.g., fetching cart items from the database
         // $cartItems = auth()->user()->cartItems ?? [];
-        return view('cart.view-cart', []);
+        $cartItems = CartItem::where('user_id', Auth::id())->with('product')->get();
+
+        return view('cart.view-cart', ['cartItems' => $cartItems]);
     }
     public function getCartCount()
     {
-        // Assuming the cart count is stored in a 'Cart' model and linked to the user
-        $count = auth()->check() ? auth()->user()->cart->count() : 0; // Adjust as needed
+
+        $count = auth()->check() ? CartItem::where('user_id', auth()->id())->count() : 0; // Adjust as needed
 
         return response()->json(['count' => $count]);
     }
-    public function addToCart(Request $request, $productId)
+
+    public function addToCart(Request $request)
     {
-        $product = Product::findOrFail($productId);
 
-        // Retrieve existing cart data from session or initialize an empty array
-        $cart = session()->get('cart', []);
+        $product = Product::findOrFail($request->product_id);
+        $cart = new CartItem();
+        $cart->user_id = Auth::id();
+        $cart->product_id = $request->product_id;
+        $cart->quantity = $request->product_qty;
+        $cart->size = $request->size;
 
-        // If product already in cart, increment the quantity
-        if (isset($cart[$productId])) {
-            $cart[$productId]['quantity'] += 1;
-        } else {
-            // Add product to cart with initial quantity of 1
-            $cart[$productId] = [
-                'name' => $product->name,
-                'price' => $product->price,
-                'quantity' => 1
-            ];
+        $cart->save();
+        return redirect()->back()->with('success', 'Item added to cart.');
+    }
+    public function removeFromCart(string $locale ,$productId)
+    {
+
+        // Find the cart item by product ID and remove it
+        $cartItem = CartItem::where('user_id',Auth::id())->where('product_id', $productId)->first();
+
+        if ($cartItem) {
+            $cartItem->delete();
+            //return redirect()->back()->with('success', 'Product removed successfully.');
+            return response()->json(['success' => true, 'message' => 'Product removed successfully']);
+        }else{
+            return response()->json(['success' => false, 'message' => 'Product not found']);
         }
 
-        // Save updated cart to session
-        session()->put('cart', $cart);
 
-        return redirect()->back()->with('success', 'Product added to cart successfully!');
     }
 }

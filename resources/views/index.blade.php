@@ -10,7 +10,7 @@
 
     <div class="container-fluid mb-5 px-0">
         <div class="header-intro position-relative wow fadeInUp" data-wow-delay="0.1s" style="max-height: 695px;">
-            <img class="w-100" src="img/cover.jpg" alt="Image" style="max-height: 695px; object-fit: cover;">
+            <img class="w-100" src="img/cover02.jpg" alt="Image" style="max-height: 695px; object-fit: cover;">
             <div class=" d-flex flex-column align-items-center justify-content-center w-100 h-100">
                 <div class="container">
                     <div class="row justify-content-center">

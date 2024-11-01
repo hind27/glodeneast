@@ -21,12 +21,22 @@
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="des" class="form-label">Description</label>
+                            <label for="des" class="form-label">Short Description</label>
                             <textarea class="form-control" id="des" name="des"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label for="des_ar" class="form-label">Description (Arabic)</label>
+                            <label for="des_ar" class="form-label">Short Description (Arabic)</label>
                             <textarea class="form-control" id="des_ar" name="des_ar"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="des_long" class="form-label">Long Description</label>
+                            <textarea class="form-control" id="des_long" name="des_long" rows="5"></textarea>
+                            <small class="form-text text-muted">You can use HTML tags for formatting.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="des_ar_long" class="form-label">Long Description (Arabic)</label>
+                            <textarea class="form-control" id="des_ar_long" name="des_ar_long" rows="5"></textarea>
+                            <small class="form-text text-muted">You can use HTML tags for formatting.</small>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
@@ -37,9 +47,20 @@
                             <select class="form-control" id="category" name="category_id" required>
                                 <option value="">Select a category</option>
                                 @foreach ($categories as $category)
-                                    <option value="{{ $category->id }}">{{ $category->title }}- {{ $category->title_ar }}</option>
+                                    <option value="{{ $category->id }}">{{ $category->title }} - {{ $category->title_ar }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="sizes" class="form-label">Sizes</label>
+                            <div class="row mx-2">
+                                @foreach ($sizes as $size)
+                                    <div class="form-check col-2">
+                                        <input class="form-check-input" type="checkbox" id="size{{ $size->id }}" name="sizes[]" value="{{ $size->id }}">
+                                        <label class="form-check-label" for="size{{ $size->id }}">{{ $size->size_liter }} Liters</label>
+                                    </div>
+                                @endforeach
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="images" class="form-label">Product Images</label>
@@ -60,8 +81,9 @@
                                 <th>Product Name</th>
                                 <th>Category</th>
                                 <th>Price</th>
-                                <th>Description</th>
-                                <th>Image</th>
+                                <th class="w-100px">Description</th>
+                                <th>Sizes</th>
+                                <th>Images</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -74,6 +96,13 @@
                                     <td>{{ $product->price }}</td>
                                     <td>{{ $product->des }}</td>
                                     <td>
+                                        @if ($product->productSizes)
+                                            @foreach ($product->productSizes as $size)
+                                                {{ $size->size?->size_liter }} Liters<br>
+                                            @endforeach
+                                        @endif
+                                    </td>
+                                    <td>
                                         @if ($product->images->isNotEmpty())
                                             @foreach ($product->images as $image)
                                                 <img src="{{ asset($image->image_path) }}" alt="{{ $product->name }}" width="100" class="img-thumbnail">
@@ -84,16 +113,14 @@
                                     </td>
                                     <td>
                                         <!-- Edit button -->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $product->id }}">
-                                            Edit
-                                        </button>
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal{{ $product->id }}">Edit</button>
 
                                         <!-- Modal for editing -->
                                         <div class="modal fade" id="editModal{{ $product->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $product->id }}" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h5 class="modal-title" id="editModalLabel{{ $product->id }}">Edit product</h5>
+                                                        <h5 class="modal-title" id="editModalLabel{{ $product->id }}">Edit Product</h5>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
@@ -105,7 +132,7 @@
                                                                 <input type="text" class="form-control" id="name_ar{{ $product->id }}" name="name_ar" value="{{ $product->name_ar }}" required>
                                                             </div>
                                                             <div class="mb-3">
-                                                                <label for="name" class="form-label">Product Name (English)</label>
+                                                                <label for="name" class="form-label">Product Name</label>
                                                                 <input type="text" class="form-control" id="name{{ $product->id }}" name="name" value="{{ $product->name }}" required>
                                                             </div>
                                                             <div class="mb-3">
@@ -113,14 +140,45 @@
                                                                 <textarea class="form-control" id="des_ar" name="des_ar">{{ $product->des_ar }}</textarea>
                                                             </div>
                                                             <div class="mb-3">
+                                                                <label for="des_long" class="form-label">Long Description</label>
+                                                                <textarea class="form-control" id="des_long" name="des_long" rows="5">{{ $product->des_long }}</textarea>
+                                                                <small class="form-text text-muted">You can use HTML tags for formatting.</small>
+                                                            </div>
+                                                            <div class="mb-3">
                                                                 <label for="price" class="form-label">Price</label>
-                                                                <input type="number" class="form-control" id="price" name="price" value="{{ $product->price }}" required>
+                                                                <input type="number" class="form-control" id="price{{ $product->id }}" name="price" value="{{ $product->price }}" required>
                                                             </div>
                                                             <div class="mb-3">
                                                                 <label for="images" class="form-label">Product Images</label>
-                                                                <input type="file" class="form-control" id="images" name="images[]" accept="image/png, image/jpeg" multiple>
+                                                                <input type="file" class="form-control" id="images{{ $product->id }}" name="images[]" accept="image/png, image/jpeg" multiple>
                                                             </div>
-                                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                                            <div class="mb-3">
+                                                                <label for="category" class="form-label">Category</label>
+                                                                <select class="form-control" id="category" name="category_id" required>
+                                                                    <option value="">Select a category</option>
+                                                                    @foreach ($categories as $category)
+                                                                        <option value="{{ $category->id }}"
+                                                                            @if ($product->category_id === $category->id) selected @endif>
+                                                                            {{ $category->title }} - {{ $category->title_ar }}
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="mb-3">
+                                                                <label for="sizes" class="form-label">Sizes</label>
+                                                                <div class="row mx-2">
+                                                                    @foreach ($sizes as $size)
+                                                                        <div class="form-check col-2">
+                                                                            <input class="form-check-input" type="checkbox" id="size{{ $size->id }}" name="sizes[]" value="{{ $size->id }}"
+                                                                                @if ($product->productSizes->contains($size->id)) checked @endif>
+                                                                            <label class="form-check-label" for="size{{ $size->id }}">{{ $size->size_liter }} Liters</label>
+                                                                        </div>
+                                                                    @endforeach
+                                                                </div>
+                                                            </div>
+
+                                                            <button type="submit" class="btn btn-primary">Update Product</button>
                                                         </form>
                                                     </div>
                                                 </div>
@@ -131,7 +189,7 @@
                                         <form action="{{ route('product.delete', ['productId' => $product->id]) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger mt-2" onclick="return confirm('Are you sure you want to delete this product?')">Delete</button>
+                                            <button type="submit" class="btn btn-danger">Delete</button>
                                         </form>
                                     </td>
                                 </tr>
@@ -141,53 +199,62 @@
                 </div>
             </main>
 
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    // Set up global CSRF for all AJAX requests
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                // Set up global CSRF for all AJAX requests
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+
+                $('#productForm').on('submit', function(e) {
+                    e.preventDefault();
+                    let formData = new FormData(this);
+
+                    $.ajax({
+                        url: $(this).attr('action'),
+                        type: $(this).attr('method'),
+                        data: formData,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            // Handle successful response
+                            location.reload(); // Reload page to see the new product
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle errors
+                            console.error(error);
                         }
                     });
+                });
 
-                    $('#productForm').on('submit', function(e) {
+                @foreach ($products as $product)
+                    $('#editproduct{{ $product->id }}').on('submit', function(e) {
                         e.preventDefault();
                         let formData = new FormData(this);
 
                         $.ajax({
-                            url: "{{ route('product.add') }}",
-                            method: 'POST',
+                            url: $(this).attr('action'),
+                            type: $(this).attr('method'),
                             data: formData,
                             contentType: false,
                             processData: false,
                             success: function(response) {
-                                if (response.status === 'success') {
-                                    console.log(response);
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: 'Success',
-                                        text: response.msg_data.message,
-                                        confirmButtonText: 'OK',
-                                    }).then((result) => {
-                                        window.location.reload();
-                                    });
-                                    $('#productForm')[0].reset();
-                                } else if (response.status === 'error') {
-                                    $('#ErrorMsg').show();
-                                    $('#ErrorMessageSpan').html(response.msg_data.message);
-                                }
+                                // Handle successful response
+                                location.reload(); // Reload page to see the changes
                             },
-                            error: function(response) {
-                                Swal.fire({
-                                    title: 'Error!!',
-                                    text: response.responseJSON.message,
-                                    icon: 'error',
-                                });
+                            error: function(xhr, status, error) {
+                                // Handle errors
+                                console.error(error);
                             }
                         });
                     });
-                });
-            </script>
-        </div>
+                @endforeach
+            });
+        </script>
     </div>
+
 @endsection

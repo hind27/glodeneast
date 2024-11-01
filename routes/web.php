@@ -13,6 +13,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FeedbackController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,11 +32,17 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 // });
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login.form');
 Route::post('/login', [UserController::class, 'login'])->name('login');
+// In web.php
+Route::get('/update-password', [UserController::class, 'showPasswordForm'])->name('password.request');
+Route::post('/password', [UserController::class, 'updatePassword'])->name('password.update');
+Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
 // Redirect root URL to the default locale (e.g., 'ar')
 
 // Route::get('/', function () {
 //     return redirect(app()->getLocale());
 // });
+// routes/web.php
+Route::redirect('/', '/ar'); // Redirects to the default locale
 
 Route::group(
     [
@@ -52,13 +59,26 @@ Route::group(
         Route::get('product', [HomeController::class, 'product'])->name('product');
         Route::get('show/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
         Route::get('store', [HomeController::class, 'store'])->name('store');
-        Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
-        Route::get('/cart', [CartController::class, 'view'])->name('cart.view');
-        Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
-        Route::post('/checkout', [CartController::class, 'placeOrder'])->name('cart.checkout');
     }
 );
-Route::post('/logout', [HomeController::class, 'logout'])->name('logout');
+Route::group(
+    [
+        'prefix' => '{locale}',
+        'where' => ['locale' => '[a-zA-Z]{2}'],
+        'middleware' => 'setLang'
+    ], function () {
+
+    Route::middleware('auth')->group(function () {
+        Route::post('/cart/remove/{productId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
+
+        Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+        Route::get('/cart/count', [CartController::class, 'getCartCount'])->name('cart.count');
+        Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+        Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
+        Route::post('/cart/submit', [CartController::class, 'submitOrder'])->name('cart.submit');
+    });
+});
+
 
 
 // In routes/web.php
