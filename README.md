@@ -55,10 +55,7 @@
 
 ---
 
-## 📸 Screenshots
 
-> Add screenshots of your app here after deployment.
-> `Admin Panel | Product Catalog | Order Page | Company Profile`
 
 ---
 
